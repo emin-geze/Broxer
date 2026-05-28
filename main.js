@@ -11,13 +11,11 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webviewTag: true // Web sayfalarını güvenli kutuda açmak için şart
+      webviewTag: true
     }
   });
 
   mainWindow.loadFile('index.html');
-  // İstersen geliştirici araçlarını açabilirsin:
-  // mainWindow.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
