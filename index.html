@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Broxer Browser</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-zinc-900 text-white font-sans h-screen flex flex-col overflow-hidden select-none">
+
+  <header class="bg-zinc-950 p-2 flex flex-col gap-2 border-b border-zinc-800">
+    
+    <div class="flex items-center gap-2" id="tabs-container">
+      <div id="tab-1" onclick="switchTab(1)" class="bg-zinc-800 px-4 py-1.5 rounded-t-lg text-sm flex items-center gap-2 cursor-pointer border-t-2 border-blue-500 active-tab">
+        <span class="truncate max-w-[100px]" id="tab-title-1">Ana Sayfa</span>
+        <button onclick="event.stopPropagation(); closeTab(1)" class="hover:bg-zinc-700 rounded p-0.5 text-xs">✕</button>
+      </div>
+      <button onclick="createNewTab()" class="bg-zinc-800 hover:bg-zinc-700 px-3 py-1 rounded-md text-sm font-bold">+</button>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1">
+        <button onclick="goBack()" class="p-1.5 hover:bg-zinc-800 rounded-md text-zinc-400 hover:text-white transition">◀</button>
+        <button onclick="goForward()" class="p-1.5 hover:bg-zinc-800 rounded-md text-zinc-400 hover:text-white transition">▶</button>
+        <button onclick="reloadPage()" class="p-1.5 hover:bg-zinc-800 rounded-md text-zinc-400 hover:text-white transition">🔄</button>
+      </div>
+
+      <div class="flex-1 flex bg-zinc-800 rounded-lg items-center px-3 py-1.5 border border-zinc-700 focus-within:border-blue-500">
+        <span class="text-zinc-500 text-sm mr-2">🔒 Secure |</span>
+        <input type="text" id="url-input" class="bg-transparent w-full outline-none text-sm text-zinc-200" value="https://google.com" onkeydown="handleUrlKey(event)">
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 bg-white relative" id="webviews-container">
+    <webview id="webview-1" src="https://google.com" class="w-full h-full absolute inset-0"></webview>
+  </main>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
