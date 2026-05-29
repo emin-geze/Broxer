@@ -1,5 +1,3 @@
-<!--GPLv2 ile lisanlanmıştır lütfen LICENSE dosyasını kontrol edin. electron node modules ile uğraşmak istemiyorsanız emin-g.web.app adresinden indirebilirsiniz.
-windows kullanıyorsanız yüksek ihtimalle güvenlik uyarısı verecektir sol üstteki ek bilgiye tıklayın ve yinede çalıştıra tıklayın.    -->
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -7,20 +5,36 @@ windows kullanıyorsanız yüksek ihtimalle güvenlik uyarısı verecektir sol �
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Broxer Browser</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    .drag-area {
+      -webkit-app-region: drag;
+    }
+    .no-drag-area {
+      -webkit-app-region: no-drag;
+    }
+  </style>
 </head>
 <body class="bg-zinc-900 text-white font-sans h-screen flex flex-col overflow-hidden select-none">
 
-  <header class="bg-zinc-950 p-2 flex flex-col gap-2 border-b border-zinc-800">
+  <header class="bg-zinc-950 flex flex-col border-b border-zinc-800 drag-area">
     
-    <div class="flex items-center gap-2" id="tabs-container">
-      <div id="tab-1" onclick="switchTab(1)" class="bg-zinc-800 px-4 py-1.5 rounded-t-lg text-sm flex items-center gap-2 cursor-pointer border-t-2 border-blue-500 active-tab">
-        <span class="truncate max-w-[100px]" id="tab-title-1">Ana Sayfa</span>
-        <button onclick="event.stopPropagation(); closeTab(1)" class="hover:bg-zinc-700 rounded p-0.5 text-xs">✕</button>
+    <div class="flex items-center justify-between pl-2">
+      <div class="flex items-center gap-2 pt-2 no-drag-area" id="tabs-container">
+        <div id="tab-1" onclick="switchTab(1)" class="bg-zinc-800 px-4 py-1.5 rounded-t-lg text-sm flex items-center gap-2 cursor-pointer border-t-2 border-blue-500 active-tab">
+          <span class="truncate max-w-[100px]" id="tab-title-1">Ana Sayfa</span>
+          <button onclick="event.stopPropagation(); closeTab(1)" class="hover:bg-zinc-700 rounded p-0.5 text-xs">✕</button>
+        </div>
+        <button onclick="createNewTab()" class="bg-zinc-800 hover:bg-zinc-700 px-3 py-1 rounded-md text-sm font-bold">+</button>
       </div>
-      <button onclick="createNewTab()" class="bg-zinc-800 hover:bg-zinc-700 px-3 py-1 rounded-md text-sm font-bold">+</button>
+
+      <div class="flex items-center h-9 no-drag-area">
+        <button onclick="minimizeWindow()" class="w-11 h-full flex items-center justify-center hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors text-xs">&#x2014;</button>
+        <button onclick="maximizeWindow()" class="w-11 h-full flex items-center justify-center hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors text-sm">&#x25A1;</button>
+        <button onclick="closeWindow()" class="w-12 h-full flex items-center justify-center hover:bg-red-600 text-zinc-400 hover:text-white transition-colors text-lg">&times;</button>
+      </div>
     </div>
 
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 p-2 no-drag-area">
       <div class="flex items-center gap-1">
         <button onclick="goBack()" class="p-1.5 hover:bg-zinc-800 rounded-md text-zinc-400 hover:text-white transition">◀</button>
         <button onclick="goForward()" class="p-1.5 hover:bg-zinc-800 rounded-md text-zinc-400 hover:text-white transition">▶</button>
@@ -39,5 +53,20 @@ windows kullanıyorsanız yüksek ihtimalle güvenlik uyarısı verecektir sol �
   </main>
 
   <script src="renderer.js"></script>
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    function closeWindow() {
+      ipcRenderer.send('window-close');
+    }
+
+    function minimizeWindow() {
+      ipcRenderer.send('window-minimize');
+    }
+
+    function maximizeWindow() {
+      ipcRenderer.send('window-maximize');
+    }
+  </script>
 </body>
 </html>
