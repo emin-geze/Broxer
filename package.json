@@ -1,6 +1,6 @@
 {
   "name": "broxer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Broxer Web Browser",
   "main": "main.js",
   "scripts": {
@@ -16,13 +16,17 @@
   "build": {
     "appId": "com.eming.broxer",
     "productName": "Broxer",
+    "publish": {
+      "provider": "generic",
+      "url": "https://emin-g.web.app/download/"
+    },
     "win": {
       "target": [
-        "nsis"
+        "nsis-web"
       ],
       "icon": "icon.ico"
     },
-    "nsis": {
+    "nsisWeb": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
