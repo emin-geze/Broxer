@@ -1,24 +1,38 @@
-//GPLv2 ile lisanlanmıştır lütfen LICENSE dosyasını kontrol edin. electron node modules ile uğraşmak istemiyorsanız emin-g.web.app adresinden indirebilirsiniz.
-//windows kullanıyorsanız yüksek ihtimalle güvenlik uyarısı verecektir sol üstteki ek bilgiye tıklayın ve yinede çalıştıra tıklayın.
-
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    frame: false,
     minWidth: 800,
     minHeight: 600,
     icon: path.join(__dirname, 'icon.ico'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webviewTag: true
+      webviewTag: true // Web sayfalarını güvenli kutuda açmak için şart
     }
   });
 
   mainWindow.loadFile('index.html');
+
+  ipcMain.on('window-close', () => {
+    mainWindow.close();
+  });
+
+  ipcMain.on('window-minimize', () => {
+    mainWindow.minimize();
+  });
+
+  ipcMain.on('window-maximize', () => {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow.maximize();
+    }
+  });
 }
 
 app.whenReady().then(() => {
