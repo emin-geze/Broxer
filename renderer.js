@@ -1,5 +1,3 @@
-//GPLv2 ile lisanlanmıştır lütfen LICENSE dosyasını kontrol edin. electron node modules ile uğraşmak istemiyorsanız emin-g.web.app adresinden indirebilirsiniz.
-//windows kullanıyorsanız yüksek ihtimalle güvenlik uyarısı verecektir sol üstteki ek bilgiye tıklayın ve yinede çalıştıra tıklayın.
 let tabCount = 1;
 let activeTabId = 1;
 
@@ -24,15 +22,12 @@ function handleUrlKey(event) {
 
 function switchTab(id) {
     activeTabId = id;
-    
-    // webview yok et
     document.querySelectorAll('webview').forEach(wv => wv.style.display = 'none');
     document.querySelectorAll('[id^="tab-"]').forEach(t => {
         t.classList.remove('bg-zinc-800', 'border-blue-500');
         t.classList.add('bg-zinc-900');
     });
 
-    // seçilemi göster
     const currentWv = document.getElementById(`webview-${id}`);
     const currentTab = document.getElementById(`tab-${id}`);
     
@@ -44,12 +39,10 @@ function switchTab(id) {
     }
 }
 
-// yeni sekme
 function createNewTab() {
     tabCount++;
     const newId = tabCount;
 
-    // sekme butonu olustur
     const tabHTML = `
       <div id="tab-${newId}" onclick="switchTab(${newId})" class="bg-zinc-900 px-4 py-1.5 rounded-t-lg text-sm flex items-center gap-2 cursor-pointer transition">
         <span class="truncate max-w-[100px]" id="tab-title-${newId}">Yeni Sekme</span>
@@ -59,7 +52,6 @@ function createNewTab() {
     const plusButton = tabsContainer.lastElementChild;
     plusButton.insertAdjacentHTML('beforebegin', tabHTML);
 
-    // webview yeni
     const wv = document.createElement('webview');
     wv.id = `webview-${newId}`;
     wv.src = 'https://google.com';
@@ -72,7 +64,6 @@ function createNewTab() {
     switchTab(newId);
 }
 
-// ctrl + w işlevi
 function closeTab(id) {
     const tab = document.getElementById(`tab-${id}`);
     const wv = document.getElementById(`webview-${id}`);
