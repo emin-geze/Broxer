@@ -12,7 +12,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webviewTag: true // Web sayfalarını güvenli kutuda açmak için şart
+      webviewTag: true
     }
   });
 
